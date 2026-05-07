@@ -4,7 +4,7 @@ import duckdb
 import kagglehub
 from typing import Generator, Any
 from src.file_manager import FileManager
-from logger_cfg import logg
+from src.logger_cfg import logg
 
 """
 data source: https://www.kaggle.com/datasets/buntyshah/auto-insurance-claims-data
