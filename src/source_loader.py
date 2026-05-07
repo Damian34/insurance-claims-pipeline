@@ -18,7 +18,7 @@ class SourceLoader:
         self.__file_manager = FileManager()
 
     def get_insurance_claims_data(self) -> Generator[dict[str, Any], None, None]:
-        file_path = self.__download_file()
+        file_path = self.download_file()
         for row in self.__read_file(file_path):
             yield row
 
@@ -30,7 +30,7 @@ class SourceLoader:
             for row in rows:
                 yield dict(zip(columns, row))
 
-    def __download_file(self) -> Path:
+    def download_file(self) -> Path:
         folder_path = self.__file_manager.create_data(SourceLoader.__DATA_FOLDER)
         file_path = folder_path / SourceLoader.__DATA_FILE_NAME
 

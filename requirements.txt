@@ -2,3 +2,5 @@ pytest
 kagglehub==1.0.1
 kagglehub[pandas-datasets]
 duckdb
+apache-airflow==3.2.1
+pendulum

@@ -37,3 +37,18 @@ pytest -s tests/
 python -m src.main
 ```
 
+### Airflow (Docker/Docker Desktop)
+```bash
+docker-compose up -d
+```
+
+After startup, open Airflow UI at http://localhost:8080
+
+To get login credentials, check the container logs:
+```bash
+docker logs insurance-claims-pipeline-airflow-1 | Select-String "Simple auth manager"
+```
+OR just look into logs of the container on docker desktop
+
+From the UI you can trigger and monitor the `insurance_claim_pipeline` DAG.
+
