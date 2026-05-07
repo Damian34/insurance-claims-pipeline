@@ -5,4 +5,4 @@ class TestEmpty:
         print("Start test_empty")
         assert True
 
-# pytest -s test/
+# pytest -s tests/
