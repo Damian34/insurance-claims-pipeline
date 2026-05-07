@@ -1,1 +1,4 @@
 pytest
+kagglehub==1.0.1
+kagglehub[pandas-datasets]
+duckdb
