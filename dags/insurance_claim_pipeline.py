@@ -1,10 +1,10 @@
 import pendulum
 from airflow.sdk import dag, task
 
-from src.claim_analyzer import ClaimAnalyzer
-from src.claim_normalizer import ClaimNormalizer
+from src.processing.claim_analyzer import ClaimAnalyzer
+from src.processing.claim_normalizer import ClaimNormalizer
 from src.claim_repository import ClaimRepository
-from src.source_loader import SourceLoader
+from src.processing.source_loader import SourceLoader
 from src.logger_cfg import logg
 
 BATCH_SIZE = 100
@@ -19,14 +19,14 @@ BATCH_SIZE = 100
 )
 def insurance_claim_dag():
     @task()
-    def extract():
-        logg.info("start extract task!")
+    def extract_claims():
+        logg.info("start extract_claims task!")
         loader = SourceLoader()
         loader.download_file()
 
     @task()
-    def transform():
-        logg.info("start transform task!")
+    def transform_claims():
+        logg.info("start transform_claims task!")
         loader = SourceLoader()
         normalizer = ClaimNormalizer()
         repository = ClaimRepository()
@@ -42,8 +42,8 @@ def insurance_claim_dag():
         repository.save_claims_silver(batch)
 
     @task()
-    def load():
-        logg.info("load transform task!")
+    def load_claims():
+        logg.info("start load_claims task!")
         analyzer = ClaimAnalyzer()
         repository = ClaimRepository()
         # reads from silver layer, enriches and saves to gold layer
@@ -56,7 +56,7 @@ def insurance_claim_dag():
                 batch = []
         repository.save_claims_gold(batch)
 
-    extract() >> transform() >> load()
+    extract_claims() >> transform_claims() >> load_claims()
 
 # DAG must be called for Airflow to discover it
 insurance_claim_dag()

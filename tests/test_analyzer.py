@@ -1,5 +1,5 @@
-from src.claim_analyzer import ClaimAnalyzer
-from src.claim_normalizer import ClaimNormalizer
+from src.processing.claim_analyzer import ClaimAnalyzer
+from src.processing.claim_normalizer import ClaimNormalizer
 from tests.claim_test_data import VALID_CLAIM_RECORD, INVALID_CLAIM_RECORD
 
 
