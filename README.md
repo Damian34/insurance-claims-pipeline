@@ -62,5 +62,3 @@ Default credentials: login `admin`, password `admin`
 
 To get started, navigate to Datasets and create a new dataset by selecting `claims-db` database and `claims_gold` table. 
 Once the dataset is ready, you can e.g. go to Charts to build your first visualization based on the claims data.
-
-

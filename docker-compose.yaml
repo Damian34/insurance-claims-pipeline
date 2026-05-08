@@ -30,7 +30,6 @@ services:
       - ./src:/opt/airflow/src
       - airflow_data:/opt/airflow/data
 
-# postgresql://postgres:postgres@claims-db:5432/claims-db
   superset:
     build:
       context: superset/
