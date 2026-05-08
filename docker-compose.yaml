@@ -1,0 +1,81 @@
+networks:
+  api-network:
+
+volumes:
+  airflow_data:
+  claims-db:
+  superset_home:
+
+services:
+  airflow:
+    build: .
+    command: standalone
+    ports:
+      - "8080:8080"
+    depends_on:
+      claims-db:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: False
+      PYTHONPATH: /opt/airflow
+      DB_HOST: claims-db
+      DB_PORT: 5432
+      DB_NAME: claims-db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    networks:
+      - api-network
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/src
+      - airflow_data:/opt/airflow/data
+
+  superset:
+    build:
+      context: superset/
+    container_name: superset
+    restart: always
+    depends_on:
+      claims-db:
+        condition: service_healthy
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: supersecretkey
+    networks:
+      - api-network
+    volumes:
+      - superset_home:/app/superset_home
+    command: >
+      /bin/sh -c "
+      superset db upgrade &&
+      superset fab create-admin
+      --username admin
+      --firstname Admin
+      --lastname User
+      --email admin@admin.com
+      --password admin &&
+      superset init &&
+      superset set-database-uri -d claims-db -u postgresql://postgres:postgres@claims-db:5432/claims-db &&
+      superset run -h 0.0.0.0 -p 8088
+      "
+
+  claims-db:
+    image: postgres:18.0-alpine
+    container_name: claims-db
+    restart: always
+    environment:
+      POSTGRES_DB: claims-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - api-network
+    volumes:
+      - claims-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d claims-db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

@@ -1,4 +1,4 @@
-from src.claim_normalizer import ClaimNormalizer
+from src.processing.claim_normalizer import ClaimNormalizer
 from tests.claim_test_data import VALID_CLAIM_RECORD
 
 

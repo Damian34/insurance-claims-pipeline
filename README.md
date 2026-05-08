@@ -37,3 +37,28 @@ pytest -s tests/
 python -m src.main
 ```
 
+### Airflow (Docker/Docker Desktop)
+```bash
+docker-compose up -d
+```
+
+After startup, open Airflow UI at http://localhost:8080
+
+To get login credentials, check the container logs:
+```bash
+docker logs insurance-claims-pipeline-airflow-1 | Select-String "Simple auth manager"
+```
+OR just look into logs of the container on docker desktop
+
+From the UI you can trigger and monitor the `insurance_claim_pipeline` DAG.
+
+### Superset (Docker/Docker Desktop)
+```bash
+docker-compose up -d
+```
+
+After startup, open Superset UI at http://localhost:8088
+Default credentials: login `admin`, password `admin`
+
+To get started, navigate to Datasets and create a new dataset by selecting `claims-db` database and `claims_gold` table. 
+Once the dataset is ready, you can e.g. go to Charts to build your first visualization based on the claims data.
