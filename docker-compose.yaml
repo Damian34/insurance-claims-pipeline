@@ -4,6 +4,7 @@ networks:
 volumes:
   airflow_data:
   claims-db:
+  superset_home:
 
 services:
   airflow:
@@ -28,6 +29,37 @@ services:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
       - airflow_data:/opt/airflow/data
+
+# postgresql://postgres:postgres@claims-db:5432/claims-db
+  superset:
+    build:
+      context: superset/
+    container_name: superset
+    restart: always
+    depends_on:
+      claims-db:
+        condition: service_healthy
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: supersecretkey
+    networks:
+      - api-network
+    volumes:
+      - superset_home:/app/superset_home
+    command: >
+      /bin/sh -c "
+      superset db upgrade &&
+      superset fab create-admin
+      --username admin
+      --firstname Admin
+      --lastname User
+      --email admin@admin.com
+      --password admin &&
+      superset init &&
+      superset set-database-uri -d claims-db -u postgresql://postgres:postgres@claims-db:5432/claims-db &&
+      superset run -h 0.0.0.0 -p 8088
+      "
 
   claims-db:
     image: postgres:18.0-alpine
