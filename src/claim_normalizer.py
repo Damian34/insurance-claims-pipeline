@@ -1,5 +1,4 @@
 from typing import Any
-
 from src.logger_cfg import logg
 
 class ClaimNormalizer:
@@ -16,6 +15,7 @@ class ClaimNormalizer:
             "months_as_customer": self.__to_int(record["months_as_customer"]),
             "age": self.__to_int(record["age"]),
             "policy_number": self.__to_int(record["policy_number"]),
+            "policy_bind_date": record["policy_bind_date"],
             "policy_state": self.__normalize_str(record["policy_state"]),
             "policy_csl": self.__normalize_str(record["policy_csl"]),
             "policy_deductable": self.__to_int(record["policy_deductable"]),
@@ -23,6 +23,7 @@ class ClaimNormalizer:
             "insured_sex": self.__normalize_str(record["insured_sex"]),
             "insured_education_level": self.__normalize_str(record["insured_education_level"]),
             "insured_occupation": self.__normalize_str(record["insured_occupation"]),
+            "incident_date": record["incident_date"],
             "incident_type": self.__normalize_str(record["incident_type"]),
             "collision_type": self.__normalize_str(record["collision_type"]),
             "incident_severity": self.__normalize_str(record["incident_severity"]),

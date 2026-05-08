@@ -4,3 +4,5 @@ kagglehub[pandas-datasets]
 duckdb
 apache-airflow==3.2.1
 pendulum
+pydantic-settings==2.14.0
+sqlalchemy
