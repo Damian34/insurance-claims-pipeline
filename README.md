@@ -52,6 +52,8 @@ OR just look into logs of the container on docker desktop
 
 From the UI you can trigger and monitor the `insurance_claim_pipeline` DAG.
 
+![Airflow DAG](images/airflow_dag.jpg)
+
 ### Superset (Docker/Docker Desktop)
 ```bash
 docker-compose up -d
@@ -62,3 +64,5 @@ Default credentials: login `admin`, password `admin`
 
 To get started, navigate to Datasets and create a new dataset by selecting `claims-db` database and `claims_gold` table. 
 Once the dataset is ready, you can e.g. go to Charts to build your first visualization based on the claims data.
+
+![Superset Chart](images/superset_chart.jpg)
