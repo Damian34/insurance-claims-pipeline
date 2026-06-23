@@ -3,7 +3,7 @@ networks:
 
 volumes:
   airflow_data:
-  claims-db:
+  claims_db:
   superset_home:
 
 services:
@@ -73,7 +73,7 @@ services:
     networks:
       - api-network
     volumes:
-      - claims-db:/var/lib/postgresql/data
+      - claims_db:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d claims-db"]
       interval: 10s
